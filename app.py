@@ -11,6 +11,7 @@ db = SQLAlchemy(app)
 class Grocery(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
+    descri = db.Column(db.String(100), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False,
                            default=datetime.utcnow)
 
@@ -22,7 +23,8 @@ class Grocery(db.Model):
 def index():
     if request.method == 'POST':
         name = request.form['name']
-        new_stuff = Grocery(name=name)
+        descri = request.form['descri']
+        new_stuff = Grocery(name=name, descri=descri)
 
         try:
             db.session.add(new_stuff)
@@ -54,6 +56,7 @@ def update(id):
 
     if request.method == 'POST':
         grocery.name = request.form['name']
+        grocery.descri = request.form['descri']
 
         try:
             db.session.commit()
